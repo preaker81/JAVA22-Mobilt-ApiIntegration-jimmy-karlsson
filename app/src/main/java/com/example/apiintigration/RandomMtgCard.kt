@@ -28,6 +28,16 @@ class RandomMtgCard : AppCompatActivity() {
 
         val api = retrofit.create(ScryfallApi::class.java)
 
+        // Initial API call to load image
+        loadRandomImage(api)
+
+        // Set click listener to ImageView to reload the image
+        binding.imageView.setOnClickListener {
+            loadRandomImage(api)
+        }
+    }
+
+    private fun loadRandomImage(api: ScryfallApi) {
         // API call
         api.getRandomCard().enqueue(object : Callback<ScryfallResponse> {
             override fun onResponse(call: Call<ScryfallResponse>, response: Response<ScryfallResponse>) {
