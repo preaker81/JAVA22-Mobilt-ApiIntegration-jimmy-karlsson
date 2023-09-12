@@ -44,7 +44,7 @@ class DashboardFragment : Fragment() {
 
         // Random MTG Card Button Click Listener
         binding.randomMtgButton.setOnClickListener {
-            findNavController().navigate(R.id.RandomMtgCardFragment)
+            findNavController().navigate(R.id.action_DashboardFragment_to_RandomMtgCardFragment)
         }
 
         // Handle back press

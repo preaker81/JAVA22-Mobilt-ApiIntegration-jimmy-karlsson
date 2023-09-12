@@ -16,18 +16,20 @@
 
     <fragment
         android:id="@+id/DashboardFragment"
-        android:name="com.example.apiintigration.DashboardFragment">
+        android:name="com.example.apiintigration.DashboardFragment"
+        android:label="DashboardFragment">
         <action
             android:id="@+id/action_DashboardFragment_to_LoginFragment"
             app:destination="@id/LoginFragment" />
+        <action
+            android:id="@+id/action_DashboardFragment_to_RandomMtgCardFragment"
+            app:destination="@id/RandomMtgCardFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/RandomMtgCardFragment"
         android:name="com.example.apiintigration.RandomMtgCardFragment"
         android:label="Random MTG Card"
-        tools:layout="@layout/fragment_random_mtg_card">
-        <!-- Add any actions here if needed -->
-    </fragment>
+        tools:layout="@layout/fragment_random_mtg_card"/>
 
 </navigation>

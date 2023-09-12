@@ -55,7 +55,7 @@ class RandomMtgCardFragment : Fragment() {
             requireActivity().getSharedPreferences("MyApp", Context.MODE_PRIVATE)
 
         // Logout button functionality
-        binding.logoutButton.setOnClickListener {
+        binding.rndMtgLogoutBtn.setOnClickListener {
             MockDb.handleLogout(sharedPreferences)
             val navOptions = NavOptions.Builder()
                 .setPopUpTo(R.id.nav_graph, true)
