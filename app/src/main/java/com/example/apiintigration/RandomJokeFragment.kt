@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import com.example.apiintigration.api.JokeApi
-import com.example.apiintigration.api.JokeResponse
 import com.example.apiintigration.databinding.FragmentRandomJokeBinding
-import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.Callback
-import retrofit2.Response
+import org.json.simple.JSONObject
+import org.json.simple.parser.JSONParser
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
+import kotlin.concurrent.thread
 
 class RandomJokeFragment : Fragment() {
 
@@ -28,26 +28,32 @@ class RandomJokeFragment : Fragment() {
     ): View? {
         binding = FragmentRandomJokeBinding.inflate(inflater, container, false)
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://official-joke-api.appspot.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val api = retrofit.create(JokeApi::class.java)
-
         binding.generateJokeButton.setOnClickListener {
-            api.getRandomJoke().enqueue(object : Callback<JokeResponse> {
-                override fun onResponse(call: Call<JokeResponse>, response: Response<JokeResponse>) {
-                    response.body()?.let {
-                        binding.setupText.text = it.setup
-                        binding.punchlineText.text = it.punchline
-                    }
-                }
+            thread {
+                val url = URL("https://official-joke-api.appspot.com/random_joke")
+                val connection = url.openConnection() as HttpURLConnection
 
-                override fun onFailure(call: Call<JokeResponse>, t: Throwable) {
-                    // Handle failure
+                try {
+                    val inputStream = connection.inputStream
+                    val reader = BufferedReader(InputStreamReader(inputStream))
+
+                    val response = reader.readText()
+
+                    val jsonParser = JSONParser()
+                    val jsonObject = jsonParser.parse(response) as JSONObject
+
+                    val setup = jsonObject["setup"] as String
+                    val punchline = jsonObject["punchline"] as String
+
+                    activity?.runOnUiThread {
+                        binding.setupText.text = setup
+                        binding.punchlineText.text = punchline
+                    }
+
+                } finally {
+                    connection.disconnect()
                 }
-            })
+            }
         }
 
         val sharedPreferences =
