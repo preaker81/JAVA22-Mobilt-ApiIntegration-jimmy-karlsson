@@ -28,7 +28,8 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPreferences = requireActivity().getSharedPreferences("MyApp", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireActivity().getSharedPreferences("MyApp", Context.MODE_PRIVATE)
 
         // Logout Button Click Listener
         binding.dashLoggoutBtn.setOnClickListener {
@@ -40,6 +41,11 @@ class DashboardFragment : Fragment() {
                 .build()
 
             findNavController().navigate(R.id.LoginFragment, null, navOptions)
+        }
+
+        // New Random Joke Button Click Listener
+        binding.randomJokeButton.setOnClickListener {
+            findNavController().navigate(R.id.action_DashboardFragment_to_RandomJokeFragment)
         }
 
         // Random MTG Card Button Click Listener

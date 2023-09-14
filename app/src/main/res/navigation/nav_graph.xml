@@ -24,12 +24,22 @@
         <action
             android:id="@+id/action_DashboardFragment_to_RandomMtgCardFragment"
             app:destination="@id/RandomMtgCardFragment" />
+        <action
+            android:id="@+id/action_DashboardFragment_to_RandomJokeFragment"
+            app:destination="@id/RandomJokeFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/RandomMtgCardFragment"
         android:name="com.example.apiintigration.RandomMtgCardFragment"
         android:label="Random MTG Card"
-        tools:layout="@layout/fragment_random_mtg_card"/>
+        tools:layout="@layout/fragment_random_mtg_card" />
+
+    <fragment
+        android:id="@+id/RandomJokeFragment"
+        android:name="com.example.apiintigration.RandomJokeFragment"
+        android:label="Random Joke">
+    </fragment>
+
 
 </navigation>
