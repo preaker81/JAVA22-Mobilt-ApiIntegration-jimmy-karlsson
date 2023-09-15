@@ -19,7 +19,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -39,7 +39,6 @@ android {
 }
 
 // Uncomment configurations if hamcrest conflicts.
-
 //configurations {
 //    all {
 //        exclude(group = "org.hamcrest", module = "hamcrest-core")
@@ -48,7 +47,6 @@ android {
 
 
 dependencies {
-    implementation(files("libs\\json-simple-1.1.1.jar"))
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.github.bumptech.glide:glide:4.12.0")

@@ -1,4 +1,4 @@
-package com.example.apiintigration
+package com.example.apiintigration.data
 
 import android.content.SharedPreferences
 
@@ -13,7 +13,7 @@ class MockDb {
             password: String,
             sharedPreferences: SharedPreferences
         ): Boolean {
-            val result = username == this.username && password == this.password
+            val result = username == Companion.username && password == Companion.password
             if (result) {
                 isLoggedIn = true
                 with(sharedPreferences.edit()) {

@@ -11,6 +11,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.apiintigration.api.ScryfallApi
+import com.example.apiintigration.data.MockDb
 import com.example.apiintigration.data.ScryfallResponse
 import com.example.apiintigration.databinding.FragmentRandomMtgCardBinding
 import retrofit2.Call
