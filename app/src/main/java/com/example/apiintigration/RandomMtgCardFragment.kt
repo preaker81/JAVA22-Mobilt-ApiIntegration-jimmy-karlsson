@@ -21,9 +21,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RandomMtgCardFragment : Fragment() {
+
+    // Declare nullable binding variable and non-nullable custom getter
     private var _binding: FragmentRandomMtgCardBinding? = null
     private val binding get() = _binding!!
 
+    // Initialize the fragment view
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,7 +39,7 @@ class RandomMtgCardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Retrofit setup
+        // Setup Retrofit
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.scryfall.com/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -44,18 +47,19 @@ class RandomMtgCardFragment : Fragment() {
 
         val api = retrofit.create(ScryfallApi::class.java)
 
-        // Initial API call to load image
+        // Make an initial API call to populate the view
         loadRandomImage(api)
 
-        // Set click listener to ImageView to reload the image
+        // Reload image on click
         binding.imageView.setOnClickListener {
             loadRandomImage(api)
         }
 
+        // Access shared preferences
         val sharedPreferences =
             requireActivity().getSharedPreferences("MyApp", Context.MODE_PRIVATE)
 
-        // Logout button functionality
+        // Logout functionality
         binding.rndMtgLogoutBtn.setOnClickListener {
             MockDb.handleLogout(sharedPreferences)
             val navOptions = NavOptions.Builder()
@@ -65,8 +69,8 @@ class RandomMtgCardFragment : Fragment() {
         }
     }
 
+    // Helper function to load image from API
     private fun loadRandomImage(api: ScryfallApi) {
-        // API call
         api.getRandomCard().enqueue(object : Callback<ScryfallResponse> {
             override fun onResponse(
                 call: Call<ScryfallResponse>,
@@ -75,7 +79,9 @@ class RandomMtgCardFragment : Fragment() {
                 if (response.isSuccessful) {
                     val imageUrl = response.body()?.image_uris?.border_crop
                     imageUrl?.let { url ->
+                        // Load image using Glide
                         Glide.with(requireContext()).load(url).into(binding.imageView)
+                        // Set the URL into the EditText
                         binding.urlEditText.setText(url)
                     }
                 }
@@ -87,6 +93,7 @@ class RandomMtgCardFragment : Fragment() {
         })
     }
 
+    // Nullify the binding when the view is destroyed
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

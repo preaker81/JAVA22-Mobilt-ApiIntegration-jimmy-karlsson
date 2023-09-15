@@ -4,6 +4,10 @@
     <string name="Login_btn">Login</string>
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="randomJokeButtonText">Random Joke</string>
+    <string name="randomMtgButtonText">Random MTG Card</string>
+    <string name="generateJokeBtnText">Generate new joke</string>
+    <string name="ImageViewDescriptionText">Shows a random Mtg Card</string>
+    <string name="randomMtgCardUrl">URL for the card...</string>
+
 </resources>

@@ -13,55 +13,71 @@ import com.example.apiintigration.api.JokeResponse
 import com.example.apiintigration.data.MockDb
 import com.example.apiintigration.databinding.FragmentRandomJokeBinding
 import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class RandomJokeFragment : Fragment() {
 
+    // Declare View Binding variable
     private lateinit var binding: FragmentRandomJokeBinding
 
+    // Initialize the fragment view
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        // Initialize View Binding
         binding = FragmentRandomJokeBinding.inflate(inflater, container, false)
 
+        // Initialize Retrofit with Gson converter and base URL
         val retrofit = Retrofit.Builder()
             .baseUrl("https://official-joke-api.appspot.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
+        // Create an API interface instance from Retrofit
         val api = retrofit.create(JokeApi::class.java)
 
+        // Setup button click listener to fetch a random joke
         binding.generateJokeButton.setOnClickListener {
             api.getRandomJoke().enqueue(object : Callback<JokeResponse> {
-                override fun onResponse(call: Call<JokeResponse>, response: Response<JokeResponse>) {
+                // Handle API response
+                override fun onResponse(
+                    call: Call<JokeResponse>,
+                    response: Response<JokeResponse>
+                ) {
+                    // Update UI with the joke data if available
                     response.body()?.let {
                         binding.setupText.text = it.setup
                         binding.punchlineText.text = it.punchline
                     }
                 }
 
+                // Handle API failure
                 override fun onFailure(call: Call<JokeResponse>, t: Throwable) {
-                    // Handle failure
+                    // Handle failure (perhaps show a message to the user)
                 }
             })
         }
 
+        // Access shared preferences
         val sharedPreferences =
             requireActivity().getSharedPreferences("MyApp", Context.MODE_PRIVATE)
 
+        // Setup Logout button click listener
         binding.rndJokeLogoutBtn.setOnClickListener {
+            // Perform logout actions
             MockDb.handleLogout(sharedPreferences)
 
-            // Create NavOptions to clear back stack
+            // Setup NavOptions to clear the back stack
             val navOptions = NavOptions.Builder()
                 .setPopUpTo(R.id.LoginFragment, true)
                 .build()
 
+            // Navigate back to Login Fragment
             findNavController().navigate(R.id.LoginFragment, null, navOptions)
         }
 
